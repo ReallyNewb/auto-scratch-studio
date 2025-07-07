@@ -4,9 +4,9 @@ os.system("color")
 
 apiUrl = "https://api.scratch.mit.edu/"
 checkProjectUrl = apiUrl + "projects/"
-addProjectUrl = apiUrl + "studios/36279833/project/"
+addProjectUrl = apiUrl + "studios/studio id/project/"
 
-token = open("EVIL secret.txt", "r").read()
+token = open("secret.txt", "r").read()
 blockedIds = open("cached-ids.txt", "r").read().splitlines()
 
 writeTo = open("cached-ids.txt", "a")
