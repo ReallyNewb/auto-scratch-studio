@@ -4,7 +4,7 @@ os.system("color")
 
 apiUrl = "https://api.scratch.mit.edu/"
 checkProjectUrl = apiUrl + "projects/"
-addProjectUrl = apiUrl + "studios/Project ID/project/"
+addProjectUrl = apiUrl + "studios/Studio ID/project/"
 
 token = open("secret.txt", "r").read()
 blockedIds = open("cached-ids.txt", "r").read().splitlines()
@@ -16,6 +16,7 @@ def write_to_blacklisted(txt):
 	writeTo.write(txt)
 
 def check_project():
+	# you can change the values here, but I recommend keeping "104" as is.
 	strId = str(random.randint(104, 118_000_000))
 	project = checkProjectUrl + strId
 
