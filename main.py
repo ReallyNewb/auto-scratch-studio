@@ -4,9 +4,9 @@ os.system("color")
 
 apiUrl = "https://api.scratch.mit.edu/"
 checkProjectUrl = apiUrl + "projects/"
-addProjectUrl = apiUrl + "studios/Studio ID/project/"
+addProjectUrl = apiUrl + "studios/36279833/project/"
 
-token = open("secret.txt", "r").read()
+token = open("EVIL secret.txt", "r").read()
 blockedIds = open("cached-ids.txt", "r").read().splitlines()
 
 writeTo = open("cached-ids.txt", "a")
@@ -16,12 +16,11 @@ def write_to_blacklisted(txt):
 	writeTo.write(txt)
 
 def check_project():
-	# you can change the values here, but I recommend keeping "104" as is.
 	strId = str(random.randint(104, 118_000_000))
 	project = checkProjectUrl + strId
 
 	if strId in blockedIds:
-		print(colored("|[Status]|: project was considered inactive or was added in the studio!", "yellow"))
+		print(colored("|[Status]|: project was considered inactive or was already added in the studio!", "yellow"))
 		return False
 
 	print(colored(f"Got project url {project}, checking status.", "green"))
@@ -41,9 +40,13 @@ while True:
 	status = check_project()
 
 	if status != None:
-		time.sleep(1)
+		time.sleep(0.5)
 		status = str(status)
 		req = requests.post(addProjectUrl + status, headers={"X-Token": token})
+
+		if req.status_code == 429: 
+			print(colored(f"|[Error]|: scratch rate limited your studio, please wait a few minutes!", "red"))
+			break
 
 		rpDict = json.loads(req.text)
 
@@ -53,4 +56,6 @@ while True:
 		else:
 			print(colored(f"|[Error]|: something went wrong! status code: {req.status_code}, internal response: {req.text}\n", "red"))
 
-	time.sleep(3)
+	time.sleep(2)
+
+input("press enter to stop!")
